@@ -13,12 +13,14 @@ public class MovieDAO extends DAO {
 
     public ArrayList<Movie> getMovie(String movieName) {
         ArrayList<Movie> MovieList = new ArrayList<>();
-        String sql = "SELECT * FROM tblMovie WHERE name = ?";
+        String sql = "SELECT * FROM tblMovie WHERE name LIKE ?" +
+                "ORDER BY releaseDate DESC";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setString(1, movieName);
+            System.out.println("%" + movieName + "%");
+            ps.setString(1, "%" + movieName + "%");
             ResultSet rs = ps.executeQuery();
-            if(rs.next()) {
+            while(rs.next()) {
                 Movie m = new Movie();
                 m.setId(rs.getInt("id"));
                 m.setName(rs.getString("name"));

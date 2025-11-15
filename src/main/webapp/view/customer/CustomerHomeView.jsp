@@ -8,7 +8,7 @@
     // If 'username' is null, the user is not logged in.
     // Redirect them back to the login page.
     if (user == null) {
-        response.sendRedirect("LoginView.jsp");
+        response.sendRedirect(request.getContextPath() + "/");
         return; // Stop processing the rest of this page
     }
 
@@ -101,11 +101,14 @@
     <p class="welcome-user"><%= user.getUsername() %></p>
 
     <div class="button-group">
-        <a href="SearchMovieView.jsp" class="action-button">Search movie</a>
 
-<%--        <a href="LoginView.jsp" class="action-button">Logout</a>--%>
+        <form action="${pageContext.request.contextPath}/movie">
+            <button type="submit" name="btnSearchMovie" class="action-button">
+                Search movie
+            </button>
+        </form>
         <form action="${pageContext.request.contextPath}/logout" method="POST">
-            <button type="submit" class="menu-button">
+            <button type="submit" name="btnLogout" class="action-button">
                 Logout
             </button>
         </form>

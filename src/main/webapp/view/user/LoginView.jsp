@@ -26,7 +26,7 @@
         }
 
         /* Center the title */
-        .login-container h2 {
+        .login-container h2, h1 {
             text-align: center;
             margin-top: 0;
             margin-bottom: 20px;
@@ -109,18 +109,18 @@
         <table class="login-form-table">
             <tr>
                 <td><label for="username">Username:</label></td>
-                <td><input type="text" id="username" name="username"></td>
+                <td><input type="text" name="inUsername" id="username" ></td>
             </tr>
             <tr>
                 <td><label for="password">Password:</label></td>
-                <td><input type="password" id="password" name="password"></td>
+                <td><input type="password" name="inPassword" id="password" ></td>
             </tr>
         </table>
 
         <hr>
 
         <div class="button-container">
-            <input type="submit" value="Login" class="login-button">
+            <input type="submit" name="btnLogin" value="Login" class="login-button" >
         </div>
 
     </form>
