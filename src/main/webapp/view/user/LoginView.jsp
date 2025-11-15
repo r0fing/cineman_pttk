@@ -92,9 +92,19 @@
 <body>
 
 <div class="login-container">
+    <h1>Cinema System</h1>
     <h2>Login</h2>
 
-    <form action="${pageContext.request.contextPath}/UserController" method="POST">
+    <%
+        String errorMessage = (String) request.getAttribute("errorMessage");
+        if (errorMessage != null) {
+    %>
+    <p class="error-message"><%= errorMessage %></p>
+    <%
+        }
+    %>
+
+    <form action="${pageContext.request.contextPath}/login" method="POST">
 
         <table class="login-form-table">
             <tr>

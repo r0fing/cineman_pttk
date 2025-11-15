@@ -1,12 +1,13 @@
+<%@ page import="model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     // --- Security Check ---
     // Get the username from the session.
-    String username = (String) session.getAttribute("username");
+    User user = (User) session.getAttribute("user");
 
     // If 'username' is null, the user is not logged in.
     // Redirect them back to the login page.
-    if (username == null) {
+    if (user == null) {
         response.sendRedirect("LoginView.jsp");
         return; // Stop processing the rest of this page
     }
@@ -94,15 +95,20 @@
 <body>
 
 <div class="home-container">
-
+    <h1>Cinema System</h1>
     <h2>Customer Home</h2>
 
-    <p class="welcome-user"><%= username %></p>
+    <p class="welcome-user"><%= user.getUsername() %></p>
 
     <div class="button-group">
         <a href="SearchMovieView.jsp" class="action-button">Search movie</a>
 
-        <a href="Logout.jsp" class="action-button">Logout</a>
+<%--        <a href="LoginView.jsp" class="action-button">Logout</a>--%>
+        <form action="${pageContext.request.contextPath}/logout" method="POST">
+            <button type="submit" class="menu-button">
+                Logout
+            </button>
+        </form>
     </div>
 
     <hr>

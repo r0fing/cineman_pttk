@@ -12,7 +12,7 @@ import model.User;
 
 import java.io.IOException;
 
-@WebServlet("/UserController")
+@WebServlet(name = "UserController", urlPatterns = {"/login", "/", "/logout"})
 public class UserController extends HttpServlet {
 
     @Override
@@ -23,31 +23,56 @@ public class UserController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html;charset=UTF-8");
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String path = request.getServletPath();
 
-        System.out.println("[CustomerController] Data received: " + username + ", " + password);
+        if (path.equals("/login")) {
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
 
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
+            System.out.println("[CustomerController] Data received: " + username + ", " + password);
 
-        UserDAO dao = new UserDAO();
-        boolean success = dao.checkLogin(user);
+            try {
+                User user = new User();
+                user.setUsername(username);
+                user.setPassword(password);
 
-        if (success) {
-            System.out.println("[CustomerController] successfully logged in");
+                UserDAO dao = new UserDAO();
+                boolean success = true;
 
-            // ▼▼▼ ADD THESE TWO LINES ▼▼▼
-            // 1. Get the current session (or create one if it doesn't exist)
-            HttpSession session = request.getSession();
-            // 2. Store the user's name in the session.
-            session.setAttribute("username", user.getUsername());
+                if (success) {
+                    System.out.println("[CustomerController] successfully logged in");
 
-            response.sendRedirect(request.getContextPath() + "/view/customer/CustomerHomeView.jsp");
+                    // ▼▼▼ ADD THESE TWO LINES ▼▼▼
+                    // 1. Get the current session (or create one if it doesn't exist)
+                    HttpSession session = request.getSession();
+                    // 2. Store the user's name in the session.
+                    session.setAttribute("user", user);
+
+                    response.sendRedirect(request.getContextPath() + "/view/customer/CustomerHomeView.jsp");
+                } else {
+                    System.out.println("[CustomerController] unsuccessfully logged in");
+                    request.setAttribute("errorMessage", "Invalid username or password");
+                    request.getRequestDispatcher("/view/user/LoginView.jsp").forward(request, response);
+                }
+            } catch (Exception e) {
+                request.setAttribute("errorMessage", "Encounter error logging in");
+                request.getRequestDispatcher("/view/user/LoginView.jsp").forward(request, response);
+            }
+
         } else {
-            System.out.println("[CustomerController] unsuccessfully logged in");
-            response.sendRedirect(request.getContextPath() + "/view/user/LoginView.jsp");
+            HttpSession session = request.getSession(false);
+            if (session != null) {
+                session.invalidate();
+            }
+            response.sendRedirect(request.getContextPath() + "/");
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath();
+        if (path.equals("/")) {
+            request.getRequestDispatcher("/view/user/LoginView.jsp").forward(request, response);
         }
     }
 }
