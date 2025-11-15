@@ -6,6 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+// ▼▼▼ ADD THIS IMPORT ▼▼▼
+import jakarta.servlet.http.HttpSession;
 import model.User;
 
 import java.io.IOException;
@@ -35,6 +37,13 @@ public class UserController extends HttpServlet {
 
         if (success) {
             System.out.println("[CustomerController] successfully logged in");
+
+            // ▼▼▼ ADD THESE TWO LINES ▼▼▼
+            // 1. Get the current session (or create one if it doesn't exist)
+            HttpSession session = request.getSession();
+            // 2. Store the user's name in the session.
+            session.setAttribute("username", user.getUsername());
+
             response.sendRedirect(request.getContextPath() + "/view/customer/CustomerHomeView.jsp");
         } else {
             System.out.println("[CustomerController] unsuccessfully logged in");
