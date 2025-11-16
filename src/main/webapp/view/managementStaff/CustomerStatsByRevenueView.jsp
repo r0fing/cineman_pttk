@@ -6,21 +6,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    // --- Security check: must be logged in ---
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/");
         return;
     }
 
-    // Get last used date range from session (for sticky inputs)
     Date startDate = (Date) session.getAttribute("startDate");
     Date endDate   = (Date) session.getAttribute("endDate");
     SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
     String startStr = (startDate != null) ? df.format(startDate) : "";
     String endStr   = (endDate != null)   ? df.format(endDate)   : "";
 
-    // Get stats list + error message from request
     ArrayList<CustomerStats> statsList =
             (ArrayList<CustomerStats>) request.getAttribute("listCS");
     String errorMessage = (String) request.getAttribute("errorMessage");
@@ -147,7 +144,6 @@
     <p class="error-message"><%= errorMessage %></p>
     <% } %>
 
-    <!-- Date range filter form -->
     <form action="${pageContext.request.contextPath}/customer" method="get"
           class="filter-form">
         <label for="start">From:</label>
@@ -163,7 +159,6 @@
 
     <hr>
 
-    <!-- Results table -->
     <table class="results-table">
         <thead>
         <tr>
@@ -219,14 +214,12 @@
     <hr>
 
     <div class="bottom-buttons">
-        <!-- LEFT: Back button (clear and go home) -->
         <form action="${pageContext.request.contextPath}/customer/clear"
               method="POST"
               style="display:inline;">
             <button type="submit" class="styled-button">Back</button>
         </form>
 
-        <!-- RIGHT: Next button (go to TransactionView for selected customer) -->
         <form id="customerForm"
               action="${pageContext.request.contextPath}/customer"
               method="GET"
@@ -239,35 +232,28 @@
 </div>
 
 <script>
-    // base URL for detail navigation, e.g. /your-app/customerStats/
     const baseUrl = '<%= request.getContextPath() %>/customer/';
 
     const rows = document.querySelectorAll('.selectable-row');
     const hiddenInput = document.getElementById('selectedCustomerId');
     const customerForm = document.getElementById('customerForm');
 
-    // click to select row
     rows.forEach(row => {
         row.addEventListener('click', function () {
             const id = this.dataset.id;
 
-            // set hidden input value
             hiddenInput.value = id;
 
-            // clear previous selection
             rows.forEach(r => r.classList.remove('row-selected'));
-            // highlight this row
             this.classList.add('row-selected');
         });
     });
 
-    // validate before submitting "Next"
     function validateSelection() {
         if (!hiddenInput.value) {
             alert('Please select a customer first.');
             return false;
         }
-        // change form action to /customerStats/{id}
         customerForm.action = baseUrl + hiddenInput.value;
         return true;
     }

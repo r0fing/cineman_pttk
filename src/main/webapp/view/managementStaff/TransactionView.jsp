@@ -12,21 +12,18 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%
-    // ---- Security check ----
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/");
         return;
     }
 
-    // Selected customer statistics (set in CustomerStatsController)
     CustomerStats customer = (CustomerStats) session.getAttribute("selectedCustomer");
     if (customer == null) {
         response.sendRedirect(request.getContextPath() + "/customerStats");
         return;
     }
 
-    // List of invoices for this customer in the period (set in InvoiceController)
     ArrayList<Invoice> listInvoice =
             (ArrayList<Invoice>) request.getAttribute("listInvoice");
 
@@ -122,7 +119,6 @@
     <h1>Cinema System</h1>
     <h2>Customer Transactions</h2>
 
-    <!-- Customer information -->
     <div class="customer-info">
         <div><span class="label">Customer code:</span> <%= customer.getId() %></div>
         <div><span class="label">Customer name:</span> <%= customer.getName() %></div>
@@ -142,7 +138,6 @@
 
     <hr>
 
-    <!-- Transactions table -->
     <table class="txn-table">
         <thead>
         <tr>
@@ -226,10 +221,8 @@
     </table>
 
     <div class="bottom-buttons">
-        <!-- Back: go back to CustomerStatsByRevenueView.jsp -->
         <a href="${pageContext.request.contextPath}/customer" class="styled-button">Back</a>
 
-        <!-- Home: clear invoice context and go to management staff home -->
         <form action="${pageContext.request.contextPath}/invoice/clear"
               method="POST"
               style="display:inline;">

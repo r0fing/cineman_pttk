@@ -26,9 +26,6 @@ public class CustomerStatsController extends HttpServlet {
         String action = req.getPathInfo();
         System.out.println("POST action = " + action);
 
-        // ============================
-        //       HANDLE /clear
-        // ============================
         if ("/clear".equals(action)) {
             HttpSession session = req.getSession(false);
             if (session != null) {

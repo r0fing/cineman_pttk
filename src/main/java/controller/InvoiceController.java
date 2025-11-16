@@ -22,22 +22,18 @@ public class InvoiceController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String action = req.getPathInfo(); // may be null, "/clear", etc.
+        String action = req.getPathInfo();
 
         if ("/clear".equals(action)) {
-            // Clear data related to this transaction view
             HttpSession session = req.getSession(false);
             if (session != null) {
                 session.removeAttribute("selectedCustomer");
-                // startDate / endDate you can keep or clear depending on your design
                  session.removeAttribute("startDate");
                  session.removeAttribute("endDate");
             }
 
-            // Go back to management staff home
             resp.sendRedirect(req.getContextPath() + "/view/managementStaff/ManagementStaffHomeView.jsp");
         } else {
-            // For now, no other POST actions
             resp.sendError(HttpServletResponse.SC_METHOD_NOT_ALLOWED);
         }
     }
@@ -46,9 +42,8 @@ public class InvoiceController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String action = req.getPathInfo(); // null or "/"
+        String action = req.getPathInfo();
 
-        // We only support listing invoices at /invoice or /invoice/
         if (action != null && !"/".equals(action)) {
             resp.sendError(HttpServletResponse.SC_NOT_FOUND);
             return;
@@ -60,21 +55,18 @@ public class InvoiceController extends HttpServlet {
             return;
         }
 
-        // Check login
         User user = (User) session.getAttribute("user");
         if (user == null) {
             resp.sendRedirect(req.getContextPath() + "/");
             return;
         }
 
-        // Selected customer, set when you clicked "Next" on CustomerStatsByRevenueView
         CustomerStats customer = (CustomerStats) session.getAttribute("selectedCustomer");
         if (customer == null) {
             resp.sendRedirect(req.getContextPath() + "/customer");
             return;
         }
 
-        // Date range used for statistics
         Date start = (Date) session.getAttribute("startDate");
         Date end   = (Date) session.getAttribute("endDate");
         if (start == null || end == null) {

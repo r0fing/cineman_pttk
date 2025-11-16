@@ -44,20 +44,16 @@ public class MovieController extends HttpServlet {
 
             try {
                 if (keyword == null || keyword.trim().isEmpty()) {
-                    // 🚩 No new keyword => reuse last search from session
                     keyword = (String) session.getAttribute("keyword");
                     movieList = (ArrayList<Movie>) session.getAttribute("movieList");
                 } else {
-                    // 🔎 New search => query DB
                     MovieDAO movieDAO = new MovieDAO();
                     movieList = movieDAO.getMovie(keyword);
 
-                    // Save to session for later reuse
                     session.setAttribute("movieList", movieList);
                     session.setAttribute("keyword", keyword);
                 }
 
-                // Put into request so JSP can use it this time
                 request.setAttribute("movieList", movieList);
                 request.setAttribute("keyword", keyword);
 

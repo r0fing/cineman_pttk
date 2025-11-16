@@ -80,7 +80,6 @@ public class CustomerStatsDAO extends DAO {
                 cs.setId(rs.getInt("customer_id"));
                 cs.setName(rs.getString("customer_name"));
 
-                // NEW: fill all customer info
                 cs.setDateOfBirth(rs.getDate("dateOfBirth"));
                 cs.setPhoneNumber(rs.getString("phoneNumber"));
                 cs.setEmail(rs.getString("email"));

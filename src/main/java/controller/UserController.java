@@ -42,10 +42,7 @@ public class UserController extends HttpServlet {
                 if (success) {
                     System.out.println("[UserController] successfully logged in");
 
-                    // ▼▼▼ ADD THESE TWO LINES ▼▼▼
-                    // 1. Get the current session (or create one if it doesn't exist)
                     HttpSession session = request.getSession();
-                    // 2. Store the user's name in the session.
                     session.setAttribute("user", user);
 
                     if (user.getRole().equals("customer")) {

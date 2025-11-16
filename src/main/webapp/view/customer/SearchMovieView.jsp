@@ -170,7 +170,6 @@
 <script>
     const rows = document.querySelectorAll('.selectable-row');
 
-    // Get the hidden input field
     const hiddenInput = document.getElementById('selectedMovieId');
 
     const movieForm = document.getElementById('movieForm');
