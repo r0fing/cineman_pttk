@@ -26,7 +26,7 @@ public class MovieDAO extends DAO {
                 m.setName(rs.getString("name"));
                 m.setReleaseDate(rs.getDate("releaseDate"));
                 m.setGenre(rs.getString("genre"));
-                m.setLength(rs.getFloat("length"));
+                m.setLength(rs.getInt("length"));
                 m.setDescription(rs.getString("description"));
                 MovieList.add(m);
             }

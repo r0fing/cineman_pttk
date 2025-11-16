@@ -1,10 +1,10 @@
 package model;
 
-public class Seat {
+public class SeatType {
     private int id;
     private String name;
+    private float extraPrice;
     private String description;
-    private SeatType seatType;
 
     public int getId() {
         return id;
@@ -22,19 +22,19 @@ public class Seat {
         this.name = name;
     }
 
+    public float getExtraPrice() {
+        return extraPrice;
+    }
+
+    public void setExtraPrice(float extraPrice) {
+        this.extraPrice = extraPrice;
+    }
+
     public String getDescription() {
         return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public SeatType getSeatType() {
-        return seatType;
-    }
-
-    public void setSeatType(SeatType seatType) {
-        this.seatType = seatType;
     }
 }

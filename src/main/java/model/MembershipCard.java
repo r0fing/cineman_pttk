@@ -1,11 +1,12 @@
 package model;
 
+import javax.smartcardio.Card;
+
 public class MembershipCard {
     private int id;
-    private String cardType;
-    private String description;
     private String registerDate;
     private Customer customer;
+    private CardType cardType;
 
     public int getId() {
         return id;
@@ -13,22 +14,6 @@ public class MembershipCard {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public String getCardType() {
-        return cardType;
-    }
-
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getRegisterDate() {
@@ -45,5 +30,13 @@ public class MembershipCard {
 
     public void setCustomer(Customer customer) {
         this.customer = customer;
+    }
+
+    public CardType getCardType() {
+        return cardType;
+    }
+
+    public void setCardType(CardType cardType) {
+        this.cardType = cardType;
     }
 }

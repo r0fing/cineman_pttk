@@ -35,10 +35,11 @@ public class MovieController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getPathInfo();
+        System.out.println(action);
 
         if (action == null || "/".equals(action)) {
             HttpSession session = request.getSession();
-            String keyword = request.getParameter("keyword");
+            String keyword = request.getParameter("inMovieName");
             ArrayList<Movie> movieList;
 
             try {
@@ -82,6 +83,10 @@ public class MovieController extends HttpServlet {
                 return;
             }
             ArrayList<Movie> movieList = (ArrayList<Movie>) session.getAttribute("movieList");
+            if (movieList == null || movieList.isEmpty()) {
+                response.sendRedirect(request.getContextPath() + "/movie");
+                return;
+            }
             Movie selectedMovie = null;
             for (Movie movie : movieList) {
                 if (movie.getId() == movieId) {

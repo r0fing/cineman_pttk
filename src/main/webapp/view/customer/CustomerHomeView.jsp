@@ -1,18 +1,12 @@
 <%@ page import="model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    // --- Security Check ---
-    // Get the username from the session.
     User user = (User) session.getAttribute("user");
 
-    // If 'username' is null, the user is not logged in.
-    // Redirect them back to the login page.
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/");
-        return; // Stop processing the rest of this page
+        return;
     }
-
-    // If we are here, the user is logged in.
 %>
 <!DOCTYPE html>
 <html>
@@ -98,7 +92,7 @@
     <h1>Cinema System</h1>
     <h2>Customer Home</h2>
 
-    <p class="welcome-user"><%= user.getUsername() %></p>
+    <p class="welcome-user"><%= user.getName() %></p>
 
     <div class="button-group">
 

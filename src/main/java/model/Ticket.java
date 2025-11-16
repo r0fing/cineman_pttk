@@ -2,10 +2,10 @@ package model;
 
 public class Ticket {
     private int id;
-    private Theater theater;
-    private ShowtimeSeat seat;
     private float price;
     private String methodOfOrder;
+    private Seat seat;
+    private Showtime showtime;
 
     public int getId() {
         return id;
@@ -13,22 +13,6 @@ public class Ticket {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Theater getTheater() {
-        return theater;
-    }
-
-    public void setTheater(Theater theater) {
-        this.theater = theater;
-    }
-
-    public ShowtimeSeat getSeat() {
-        return seat;
-    }
-
-    public void setSeat(ShowtimeSeat seat) {
-        this.seat = seat;
     }
 
     public float getPrice() {
@@ -45,5 +29,21 @@ public class Ticket {
 
     public void setMethodOfOrder(String methodOfOrder) {
         this.methodOfOrder = methodOfOrder;
+    }
+
+    public Seat getSeat() {
+        return seat;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
+
+    public Showtime getShowtime() {
+        return showtime;
+    }
+
+    public void setShowtime(Showtime showtime) {
+        this.showtime = showtime;
     }
 }

@@ -6,11 +6,10 @@ public class Theater {
     private int id;
     private String name;
     private int seatingCapacity;
-    private String screenType;
-    private float price;
     private String description;
     private ArrayList<Seat> seatList;
     private Cinema cinema;
+    private ScreenType screenType;
 
     public int getId() {
         return id;
@@ -36,22 +35,6 @@ public class Theater {
         this.seatingCapacity = seatingCapacity;
     }
 
-    public String getScreenType() {
-        return screenType;
-    }
-
-    public void setScreenType(String screenType) {
-        this.screenType = screenType;
-    }
-
-    public float getPrice() {
-        return price;
-    }
-
-    public void setPrice(float price) {
-        this.price = price;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -74,5 +57,13 @@ public class Theater {
 
     public void setCinema(Cinema cinema) {
         this.cinema = cinema;
+    }
+
+    public ScreenType getScreenType() {
+        return screenType;
+    }
+
+    public void setScreenType(ScreenType screenType) {
+        this.screenType = screenType;
     }
 }

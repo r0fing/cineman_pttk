@@ -4,7 +4,6 @@
 <%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
-    // --- Security Check ---
     User user = (User) session.getAttribute("user");
     if (user == null) {
         response.sendRedirect(request.getContextPath() + "/view/user/LoginView.jsp");
@@ -26,7 +25,6 @@
     <meta charset="UTF-8">
     <title>Movie Search</title>
     <style>
-        /* (All the CSS styles from the previous example go here) */
         body {
             font-family: Arial, sans-serif;
             display: flex;
@@ -100,7 +98,6 @@
             font-weight: bold;
         }
 
-        /* -- NEW: Styles for the selectable rows -- */
         .selectable-row {
             cursor: pointer; /* Show a hand cursor on hover */
             background-color: #e6f2ff; /* Original row color */
@@ -171,7 +168,6 @@
 </div>
 
 <script>
-    // Get all the rows that can be clicked
     const rows = document.querySelectorAll('.selectable-row');
 
     // Get the hidden input field
@@ -179,33 +175,27 @@
 
     const movieForm = document.getElementById('movieForm');
 
-    // Add a click listener to each row
     rows.forEach(row => {
         row.addEventListener('click', function() {
 
-            // 1. Get the ID from the 'data-id' attribute
             const movieId = this.dataset.id;
 
-            // 2. Set the hidden input's value
             hiddenInput.value = movieId;
 
-            // 3. Remove highlight from all *other* rows
             rows.forEach(r => r.classList.remove('row-selected'));
 
-            // 4. Add highlight to *this* row
             this.classList.add('row-selected');
         });
     });
 
-    // This function runs when you click "Next"
     function validateSelection() {
         if (hiddenInput.value === "") {
             alert('Please select a movie first.');
-            return false; // This stops the form from submitting
+            return false;
         }
         const movieId = hiddenInput.value;
         movieForm.action = '${pageContext.request.contextPath}/movie/' + movieId;
-        return true; // Allows the form to submit
+        return true;
     }
 </script>
 

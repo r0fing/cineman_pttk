@@ -7,7 +7,7 @@ public class Movie {
     private String name;
     private Date releaseDate;
     private String genre;
-    private float length;
+    private int length;
     private String description;
 
     public int getId() {
@@ -42,11 +42,11 @@ public class Movie {
         this.genre = genre;
     }
 
-    public float getLength() {
+    public int getLength() {
         return length;
     }
 
-    public void setLength(float length) {
+    public void setLength(int length) {
         this.length = length;
     }
 
