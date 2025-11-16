@@ -86,6 +86,7 @@ public class CustomerStatsController extends HttpServlet {
                 CustomerStatsDAO dao = new CustomerStatsDAO();
                 ArrayList<CustomerStats> list = dao.getCustomerStats(startDate, endDate);
                 req.setAttribute("listCS", list);
+                session.setAttribute("listCS", list);
             } catch (Exception e) {
                 req.setAttribute("errorMessage", "Failed to load customer statistics.");
                 e.printStackTrace();
