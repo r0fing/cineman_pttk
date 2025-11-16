@@ -19,54 +19,44 @@ public class CustomerStatsDAO extends DAO {
 
         String sql = """
 
-        SELECT
-            u.id           AS customer_id,
-            u.name         AS customer_name,
-            u.dateOfBirth  AS dateOfBirth,
-            u.phoneNumber  AS phoneNumber,
-            u.email        AS email,
-            u.address      AS address,
+    SELECT
+        u.id           AS customer_id,
+        u.name         AS customer_name,
+        u.dateOfBirth  AS dateOfBirth,
+        u.phoneNumber  AS phoneNumber,
+        u.email        AS email,
+        u.address      AS address,
 
-            -- Total number of tickets purchased in the range
-            COALESCE(COUNT(t.id), 0) AS tickets_purchased,
+        COALESCE(COUNT(t.id), 0) AS tickets_purchased,
 
-            -- Total revenue AFTER discount
-            ROUND(
-                COALESCE(SUM(t.price * (1 - COALESCE(ct.saleoff, 0))), 0)
-            ) AS total_revenue
+        -- Total revenue AFTER the saleoff stored in the INVOICE
+        ROUND(
+            COALESCE(SUM(t.price * (1 - COALESCE(i.saleoff, 0))), 0)
+        ) AS total_revenue
 
-        FROM tblCustomer c
-        JOIN tblUser u
-              ON u.id = c.tblUserid
+    FROM tblCustomer c
+    JOIN tblUser u
+          ON u.id = c.tblUserid
 
-        -- Invoices within date range
-        LEFT JOIN tblInvoice i
-              ON i.tblCustomerTblUserid = c.tblUserid
-             AND i.creationTime >= ?
-             AND i.creationTime < DATE_ADD(?, INTERVAL 1 DAY)
+    LEFT JOIN tblInvoice i
+          ON i.tblCustomerTblUserid = c.tblUserid
+         AND i.creationTime >= ?
+         AND i.creationTime < DATE_ADD(?, INTERVAL 1 DAY)
 
-        -- Tickets in invoice
-        LEFT JOIN tblTicket t
-              ON t.tblInvoiceid = i.id
+    LEFT JOIN tblTicket t
+          ON t.tblInvoiceid = i.id
 
-        -- Membership card (optional)
-        LEFT JOIN tblMembershipCard mc
-              ON mc.tblUserid = c.tblUserid
+    GROUP BY
+        u.id,
+        u.name,
+        u.dateOfBirth,
+        u.phoneNumber,
+        u.email,
+        u.address
 
-        -- Membership card type (saleoff)
-        LEFT JOIN tblCardType ct
-              ON ct.id = mc.tblCardTypeid
+    ORDER BY total_revenue DESC;
+    """;
 
-        GROUP BY
-            u.id,
-            u.name,
-            u.dateOfBirth,
-            u.phoneNumber,
-            u.email,
-            u.address
-
-        ORDER BY total_revenue DESC;
-        """;
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
